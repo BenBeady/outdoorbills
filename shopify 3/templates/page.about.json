@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "ob-floating-header": { "type": "ob-floating-header" },
+    "ob-about-hero":      { "type": "ob-about-hero" },
+    "ob-about-bio":       { "type": "ob-about-bio" },
+    "ob-about-mission":   { "type": "ob-about-mission" },
+    "ob-about-gallery":   { "type": "ob-about-gallery" },
+    "ob-about-sandlot":   { "type": "ob-about-sandlot" },
+    "ob-newsletter":      { "type": "ob-newsletter" },
+    "ob-floating-footer": { "type": "ob-floating-footer" }
+  },
+  "order": [
+    "ob-floating-header",
+    "ob-about-hero",
+    "ob-about-bio",
+    "ob-about-mission",
+    "ob-about-gallery",
+    "ob-about-sandlot",
+    "ob-newsletter",
+    "ob-floating-footer"
+  ]
+}

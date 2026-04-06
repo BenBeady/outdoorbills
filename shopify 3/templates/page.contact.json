@@ -1,0 +1,8 @@
+{
+  "sections": {
+    "ob-floating-header": { "type": "ob-floating-header", "disabled": false },
+    "ob-page-contact": { "type": "ob-page-contact" },
+    "ob-floating-footer": { "type": "ob-floating-footer" }
+  },
+  "order": ["ob-floating-header","ob-page-contact","ob-floating-footer"]
+}

@@ -1,0 +1,48 @@
+{% comment %}OUTDOOR BILLS — Best Sellers | sections/ob-best-sellers.liquid{% endcomment %}
+<section class="ob-products">
+  <div class="ob-prod-head ob-reveal">
+    <div>
+      <span class="ob-label">{{ section.settings.eyebrow }}</span>
+      <h2 class="ob-title">{{ section.settings.title_plain }} <em>{{ section.settings.title_italic }}</em></h2>
+    </div>
+    <a href="/collections/all" class="ob-btn-out">View All Products</a>
+  </div>
+  <div class="ob-prod-grid">
+    {% assign col = collections[section.settings.collection] %}
+    {% if col != blank %}
+      {% for product in col.products limit: section.settings.product_count %}
+        <a href="{{ product.url }}" class="ob-prod-card ob-reveal ob-d{{ forloop.index }}">
+          {% if product.featured_image %}<img src="{{ product.featured_image | img_url: '600x800', crop: 'center' }}" alt="{{ product.featured_image.alt | escape }}"/>{% endif %}
+          {% if forloop.first %}<span class="ob-prod-badge">Best Seller</span>{% elsif product.available == false %}<span class="ob-prod-badge">Sold Out</span>{% endif %}
+          <div class="ob-prod-info">
+            <div class="ob-prod-name">{{ product.title }}</div>
+            <div class="ob-prod-price">{{ product.price | money }}</div>
+          </div>
+        </a>
+      {% endfor %}
+    {% else %}
+      {% for i in (1..3) %}
+        <div class="ob-prod-card ob-reveal ob-d{{ forloop.index }}">
+          {{ 'product-' | append: forloop.index | placeholder_svg_tag: 'ob-ph' }}
+          <div class="ob-prod-info"><div class="ob-prod-name">Product {{ forloop.index }}</div><div class="ob-prod-price">$00.00</div></div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</section>
+<style>
+.ob-products{padding:6rem 3.5rem;background:var(--ob-cream);}
+.ob-prod-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:3.5rem;flex-wrap:wrap;gap:1rem;}
+.ob-prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--ob-border);}
+.ob-prod-card{background:var(--ob-card);position:relative;overflow:hidden;aspect-ratio:3/4;cursor:pointer;text-decoration:none;display:block;}
+.ob-prod-card img,.ob-ph{width:100%;height:100%;object-fit:cover;filter:saturate(0.88);transition:transform 0.5s,filter 0.4s;}
+.ob-prod-card:hover img{transform:scale(1.07);filter:saturate(1.05);}
+.ob-prod-info{position:absolute;bottom:0;left:0;right:0;padding:1.5rem;background:linear-gradient(to top,rgba(42,31,20,0.92),transparent);transform:translateY(22%);transition:transform 0.4s;}
+.ob-prod-card:hover .ob-prod-info{transform:translateY(0);}
+.ob-prod-name{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:#fff;margin-bottom:0.25rem;}
+.ob-prod-price{font-size:0.82rem;color:var(--ob-khaki);font-weight:500;}
+.ob-prod-badge{position:absolute;top:1rem;right:1rem;background:var(--ob-sienna);color:#fff;font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;padding:0.22rem 0.6rem;border-radius:2px;}
+@media(max-width:900px){.ob-products{padding:4rem 1rem;}.ob-prod-grid{grid-template-columns:repeat(2,1fr);}.ob-prod-head{flex-direction:column;align-items:flex-start;}}
+@media(max-width:500px){.ob-prod-grid{grid-template-columns:1fr;}}
+</style>
+{% schema %}{"name":"OB Best Sellers","settings":[{"type":"text","id":"eyebrow","label":"Eyebrow","default":"The Shop"},{"type":"text","id":"title_plain","label":"Title (plain)","default":"Best"},{"type":"text","id":"title_italic","label":"Title (italic)","default":"Sellers"},{"type":"collection","id":"collection","label":"Product Collection"},{"type":"range","id":"product_count","label":"Number of Products","min":2,"max":6,"step":1,"default":3}],"presets":[{"name":"OB Best Sellers"}]}{% endschema %}

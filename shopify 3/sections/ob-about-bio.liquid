@@ -1,0 +1,62 @@
+{% comment %}OUTDOOR BILLS — About Bio | sections/ob-about-bio.liquid
+No credential bubbles. YouTube → @bill_leroy
+{% endcomment %}
+<section class="ob-bio">
+  <div class="ob-bio-img ob-reveal">
+    {% if section.settings.bio_image %}
+      <img src="{{ section.settings.bio_image | img_url: '900x' }}" alt="Bill Leroy"/>
+    {% endif %}
+    <div class="ob-bio-nameplate">
+      <span class="ob-bio-name">{{ section.settings.bio_name | default: 'Bill Leroy' }}</span>
+      <span class="ob-bio-role">Founder, Outdoor Bills</span>
+    </div>
+  </div>
+  <div class="ob-bio-text ob-reveal ob-d1">
+    <span class="ob-label">{{ section.settings.eyebrow | default: 'The Man Behind It' }}</span>
+    <h2 class="ob-title">{{ section.settings.title | default: 'Born' }} <em>{{ section.settings.title_italic | default: 'Outdoors' }}</em></h2>
+    <div class="ob-divider"></div>
+    <blockquote class="ob-bio-quote">"{{ section.settings.pull_quote | default: 'The outdoors became more than a hobby — it became a way of life.' }}"</blockquote>
+    <p>{{ section.settings.para1 | default: 'I grew up fishing and hunting in the woods and waters of Middle Georgia, where going outside is where I feel most connected to what truly matters.' }}</p>
+    <p>{{ section.settings.para2 | default: 'Outdoor Bills started as a way to share that love with others — people who feel most alive when they're on the water, in the woods, or chasing adventure around the world.' }}</p>
+    <p>{{ section.settings.para3 | default: 'Every piece of gear and apparel carries that same spirit. This is more than a brand — it's a community built around finding joy in the outdoors.' }}</p>
+    <div class="ob-bio-ctas">
+      <a href="/collections/all" class="ob-btn">Shop the Collection</a>
+      <a href="https://www.youtube.com/@bill_leroy" class="ob-btn-out" target="_blank" rel="noopener">Watch on YouTube</a>
+    </div>
+  </div>
+</section>
+<style>
+.ob-bio{display:grid;grid-template-columns:1fr 1.05fr;min-height:600px;background:var(--ob-card);}
+.ob-bio-img{position:relative;overflow:hidden;min-height:500px;}
+.ob-bio-img img{width:100%;height:100%;object-fit:cover;filter:saturate(0.88) contrast(1.04);}
+.ob-bio-img::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(59,92,114,0.14),rgba(74,103,65,0.08));}
+.ob-bio-nameplate{position:absolute;bottom:1.5rem;left:1.5rem;z-index:2;background:rgba(42,31,20,0.88);backdrop-filter:blur(8px);padding:0.7rem 1.2rem;border-left:3px solid var(--ob-sienna);}
+.ob-bio-name{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.1em;color:#fff;display:block;}
+.ob-bio-role{font-size:0.66rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ob-khaki);}
+.ob-bio-text{display:flex;flex-direction:column;justify-content:center;padding:5rem 4.5rem;}
+.ob-bio-text p{font-family:'Libre Baskerville',serif;font-size:0.97rem;line-height:1.92;color:var(--ob-muted);margin:0.7rem 0;}
+.ob-bio-quote{border-left:3px solid var(--ob-sienna);padding:0.2rem 0 0.2rem 1.4rem;margin:1.4rem 0;font-family:'Libre Baskerville',serif;font-style:italic;font-size:1.06rem;color:var(--ob-river);}
+.ob-bio-ctas{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.5rem;}
+@media(max-width:900px){
+  .ob-bio{grid-template-columns:1fr;}
+  .ob-bio-img{min-height:340px;}
+  .ob-bio-text{padding:3rem 1.5rem;}
+}
+</style>
+{% schema %}
+{
+  "name": "OB About — Bio",
+  "settings": [
+    { "type": "image_picker", "id": "bio_image",     "label": "Photo of Bill" },
+    { "type": "text",         "id": "bio_name",      "label": "Name",           "default": "Bill Leroy" },
+    { "type": "text",         "id": "eyebrow",       "label": "Eyebrow",        "default": "The Man Behind It" },
+    { "type": "text",         "id": "title",         "label": "Title (plain)",  "default": "Born" },
+    { "type": "text",         "id": "title_italic",  "label": "Title (italic)", "default": "Outdoors" },
+    { "type": "text",         "id": "pull_quote",    "label": "Pull Quote",     "default": "The outdoors became more than a hobby — it became a way of life." },
+    { "type": "textarea",     "id": "para1",         "label": "Paragraph 1",   "default": "I grew up fishing and hunting in the woods and waters of Middle Georgia, where going outside is where I feel most connected to what truly matters." },
+    { "type": "textarea",     "id": "para2",         "label": "Paragraph 2",   "default": "Outdoor Bills started as a way to share that love with others — people who feel most alive when they're on the water, in the woods, or chasing adventure around the world." },
+    { "type": "textarea",     "id": "para3",         "label": "Paragraph 3",   "default": "Every piece of gear and apparel carries that same spirit. This is more than a brand — it's a community built around finding joy in the outdoors." }
+  ],
+  "presets": [{ "name": "OB About — Bio" }]
+}
+{% endschema %}

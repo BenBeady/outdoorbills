@@ -1,0 +1,29 @@
+{% comment %}OUTDOOR BILLS — About Hero | sections/ob-about-hero.liquid{% endcomment %}
+<section class="ob-abt-hero">
+  <div class="ob-abt-hero-bg" {% if section.settings.hero_image %}style="background-image:linear-gradient(to bottom,rgba(42,31,20,0.15) 0%,rgba(42,31,20,0.0) 30%,rgba(42,31,20,0.9) 100%),url('{{ section.settings.hero_image | img_url: '2000x' }}');"{% endif %}></div>
+  <div class="ob-abt-hero-content ob-reveal">
+    <span class="ob-abt-est">Est. 2023</span>
+    <h1 class="ob-abt-hero-title">Our <em>Story</em></h1>
+    <p>{{ section.settings.hero_subtitle | default: 'Finding Joy In The Outdoors — around the world.' }}</p>
+  </div>
+</section>
+<style>
+.ob-abt-hero{position:relative;height:52vh;min-height:400px;display:flex;align-items:flex-end;overflow:hidden;}
+.ob-abt-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-color:var(--ob-earth);}
+.ob-abt-hero-content{position:relative;z-index:2;padding:0 3.5rem 3.5rem;max-width:720px;}
+.ob-abt-est{display:inline-block;font-size:0.7rem;letter-spacing:0.4em;text-transform:uppercase;color:#8DC8E0;padding:0.2rem 0.8rem;border:1px solid rgba(141,200,224,0.3);border-radius:30px;background:rgba(59,92,114,0.22);backdrop-filter:blur(6px);margin-bottom:0.8rem;}
+.ob-abt-hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,10vw,9rem);line-height:0.88;color:#fff;margin:0.3rem 0 0.7rem;}
+.ob-abt-hero-title em{font-family:'Playfair Display',serif;font-style:italic;color:var(--ob-khaki);}
+.ob-abt-hero-content p{font-family:'Libre Baskerville',serif;font-style:italic;color:rgba(240,235,224,0.72);font-size:1rem;}
+@media(max-width:900px){.ob-abt-hero-content{padding:0 1.5rem 2.5rem;}}
+</style>
+{% schema %}
+{
+  "name": "OB About — Hero",
+  "settings": [
+    { "type": "image_picker", "id": "hero_image",    "label": "Hero Background Image" },
+    { "type": "text",         "id": "hero_subtitle", "label": "Subtitle", "default": "Finding Joy In The Outdoors — around the world." }
+  ],
+  "presets": [{ "name": "OB About — Hero" }]
+}
+{% endschema %}

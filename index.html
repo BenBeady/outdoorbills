@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Outdoor Bills — Find Joy In The Outdoors</title>
+  <meta name="description" content="Outdoor Bills — Apparel and gear for people who actually go outside. Fish On. Hunt More. Find Joy. Est. 2023."/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+
+/* ══════════════════════════════════════════
+   HOMEPAGE HERO — full bleed, dark, cinematic
+══════════════════════════════════════════ */
+.hero {
+  height: 100vh; min-height: 700px;
+  position: relative; display: flex; align-items: flex-end;
+  overflow: hidden;
+}
+.hero-scene {
+  position: absolute; inset: 0;
+  /* Deep forest / water atmosphere */
+  background:
+    linear-gradient(180deg,
+      rgba(26,18,9,.05) 0%,
+      rgba(26,18,9,0)   20%,
+      rgba(26,40,28,.18) 55%,
+      rgba(26,18,9,.96) 100%
+    ),
+    linear-gradient(135deg,
+      #0d1a10 0%,
+      #1a2e1e 20%,
+      #243d4a 50%,
+      #1a2e1e 75%,
+      #0d1a10 100%
+    );
+}
+/* Animated light shafts / water reflections */
+.hero-light {
+  position: absolute; pointer-events: none;
+  border-radius: 50%; filter: blur(100px);
+  animation: lightDrift 16s ease-in-out infinite alternate;
+}
+.hero-light-1 { width:70vw;height:70vw;top:-20%;right:-15%;background:radial-gradient(circle,rgba(59,92,114,.4),transparent 65%);animation-duration:16s; }
+.hero-light-2 { width:45vw;height:45vw;bottom:0;left:-5%;background:radial-gradient(circle,rgba(74,103,65,.3),transparent 65%);animation-duration:20s;animation-direction:alternate-reverse; }
+.hero-light-3 { width:20vw;height:20vw;top:35%;left:45%;background:radial-gradient(circle,rgba(196,170,122,.18),transparent 65%);animation-duration:11s; }
+@keyframes lightDrift { from{transform:translate(0,0) scale(1)} to{transform:translate(25px,20px) scale(1.1)} }
+
+/* Film grain */
+.hero-grain {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: .45; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+}
+
+/* Horizontal scan line — subtle cinematic touch */
+.hero-scan {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: .04;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,1) 2px, rgba(0,0,0,1) 4px);
+}
+
+.hero-content {
+  position: relative; z-index: 3;
+  padding: 0 6vw 8rem;
+  display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem;
+  width: 100%;
+}
+.hero-left { max-width: 780px; }
+
+.hero-kicker {
+  display: inline-flex; align-items: center; gap: .7rem;
+  font-size: .6rem; letter-spacing: .5em; text-transform: uppercase;
+  color: #8DC8E0;
+  padding: .22rem .9rem;
+  border: 1px solid rgba(141,200,224,.22);
+  border-radius: 30px; background: rgba(59,92,114,.18);
+  backdrop-filter: blur(8px); margin-bottom: 1.5rem;
+  opacity: 0; animation: rise .8s .3s forwards;
+}
+.hero-kicker-dot { width:5px;height:5px;background:var(--sky);border-radius:50%;animation:blink 2.2s infinite; }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:.18} }
+
+.hero-h1 {
+  font-family: var(--ff-head);
+  font-size: clamp(5rem, 14vw, 15rem);
+  line-height: .84; letter-spacing: .015em;
+  color: #fff;
+  opacity: 0; animation: rise 1s .5s forwards;
+}
+.hero-h1 .kw {
+  font-family: var(--ff-serif); font-style: italic;
+  color: var(--khaki); display: block;
+  font-size: .75em; letter-spacing: .02em;
+}
+
+.hero-sub {
+  font-family: var(--ff-body); font-style: italic;
+  font-size: 1rem; color: rgba(240,235,224,.55);
+  line-height: 1.85; max-width: 400px;
+  margin: 1.8rem 0 2.8rem;
+  opacity: 0; animation: rise 1s .7s forwards;
+}
+
+.hero-actions {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  opacity: 0; animation: rise 1s .9s forwards;
+}
+
+/* Right column — vertical stats */
+.hero-right {
+  display: flex; flex-direction: column; gap: 0;
+  border-left: 1px solid rgba(255,255,255,.07);
+  opacity: 0; animation: fadeIn 1s 1.4s forwards;
+}
+.hero-stat { padding: 1.4rem 1.6rem; border-bottom: 1px solid rgba(255,255,255,.06); text-align: center; }
+.hero-stat:last-child { border-bottom: none; }
+.hero-stat-n { font-family: var(--ff-head); font-size: 2rem; letter-spacing: .04em; color: var(--khaki); display: block; line-height: 1; }
+.hero-stat-l { font-size: .52rem; letter-spacing: .28em; text-transform: uppercase; color: rgba(240,235,224,.28); margin-top: .3rem; display: block; }
+
+/* scroll cue */
+.hero-scroll {
+  position: absolute; bottom: 2.8rem; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: .5rem; z-index: 3;
+  opacity: 0; animation: fadeIn 1s 2s forwards;
+}
+.hero-scroll span { font-size: .52rem; letter-spacing: .4em; text-transform: uppercase; color: rgba(240,235,224,.28); }
+.scroll-line { width:1px;height:52px;background:linear-gradient(to bottom,var(--khaki),transparent);animation:scrollPulse 2.5s ease-in-out infinite; }
+@keyframes scrollPulse { 0%,100%{opacity:.22}50%{opacity:1} }
+
+@keyframes rise   { from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn { from{opacity:0}to{opacity:1} }
+
+/* ══════════════════════════════════════════
+   INTRO STRIP — editorial big text
+══════════════════════════════════════════ */
+.intro-strip {
+  background: var(--cream);
+  padding: 7rem 6vw;
+  display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: center;
+}
+.intro-num {
+  font-family: var(--ff-head); font-size: clamp(8rem,18vw,18rem);
+  letter-spacing: -.02em; color: rgba(59,92,114,.08);
+  line-height: 1; user-select: none;
+}
+.intro-text { }
+.intro-bar { width: 44px; height: 2.5px; background: var(--sienna); margin: 1.4rem 0; }
+.intro-body { font-family: var(--ff-body); font-size: 1rem; line-height: 1.95; color: var(--muted); margin-bottom: 1rem; }
+.intro-pull { font-family: var(--ff-serif); font-style: italic; font-size: 1.2rem; color: var(--river); border-left: 3px solid var(--sienna); padding-left: 1.3rem; line-height: 1.65; margin: 1.8rem 0; }
+
+/* ══════════════════════════════════════════
+   PILLARS — four values, dark bg, full width
+══════════════════════════════════════════ */
+.pillars-section { background: var(--earth2); padding: 7rem 6vw; }
+.pillars-header { margin-bottom: 4rem; max-width: 600px; }
+.pillars-header .ob-title { font-size: clamp(3rem,5.5vw,6rem); color: #fff; }
+.pillars-header .ob-title em { color: var(--khaki); }
+.pillars-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; background: rgba(255,255,255,.04); }
+.pillar-card {
+  background: var(--earth); padding: 3rem 2rem;
+  position: relative; overflow: hidden;
+  transition: background .35s;
+  border-bottom: 2px solid transparent;
+  transition: border-color .3s, background .3s;
+}
+.pillar-card:hover { background: #1f1710; border-bottom-color: var(--sienna); }
+.pillar-card::before {
+  content: attr(data-n);
+  position: absolute; top: 1rem; right: 1.2rem;
+  font-family: var(--ff-head); font-size: 5rem; letter-spacing: -.02em;
+  color: rgba(255,255,255,.025); line-height: 1;
+}
+.pillar-icon { font-size: 2.2rem; display: block; margin-bottom: 1.2rem; }
+.pillar-title { font-family: var(--ff-head); font-size: 1.6rem; letter-spacing: .08em; color: var(--khaki); margin-bottom: .6rem; }
+.pillar-body { font-family: var(--ff-ui); font-size: .8rem; color: rgba(240,235,224,.38); line-height: 1.7; }
+
+/* ══════════════════════════════════════════
+   FIELD NOTES / STORY CARDS
+══════════════════════════════════════════ */
+.field-notes { background: var(--cream); padding: 7rem 6vw; }
+.field-grid { display: grid; grid-template-columns: 1.5fr 1fr; grid-template-rows: auto auto; gap: 4px; margin-top: 3.5rem; background: var(--border); }
+.field-card {
+  position: relative; overflow: hidden;
+  background: var(--earth2); display: block;
+  text-decoration: none;
+}
+.field-card-main { grid-row: span 2; min-height: 680px; }
+.field-card-sm { min-height: 320px; }
+.field-card-img {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  filter: saturate(.7) brightness(.62);
+  transition: transform .6s ease, filter .5s;
+}
+.field-card:hover .field-card-img { transform: scale(1.06); filter: saturate(.9) brightness(.68); }
+/* gradient placeholder backgrounds */
+.fc-bg-1 { background: linear-gradient(145deg,#0d2018,#1a3d28,#243d4a); }
+.fc-bg-2 { background: linear-gradient(145deg,#1e1208,#3d2a12,#2a1a0a); }
+.fc-bg-3 { background: linear-gradient(145deg,#0a1a22,#1a2e3a,#243040); }
+.field-card-veil { position: absolute; inset: 0; background: linear-gradient(to top,rgba(26,18,9,.95) 0%,rgba(26,18,9,.08) 55%,transparent 100%); }
+.field-card-body { position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem; }
+.field-card-tag { font-size: .55rem; letter-spacing: .3em; text-transform: uppercase; color: var(--peach); display: block; margin-bottom: .4rem; }
+.field-card-title { font-family: var(--ff-head); font-size: 2.4rem; letter-spacing: .05em; color: #fff; line-height: .92; margin-bottom: .5rem; transition: color .2s; }
+.field-card:hover .field-card-title { color: var(--khaki); }
+.field-card-sub { font-family: var(--ff-body); font-style: italic; font-size: .78rem; color: rgba(240,235,224,.5); line-height: 1.5; margin-bottom: 1rem; }
+.field-card-arrow { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--khaki); transition: letter-spacing .2s; }
+.field-card:hover .field-card-arrow { letter-spacing: .28em; }
+
+/* ══════════════════════════════════════════
+   YOUTUBE STRIP — raw wilderness cinematic
+══════════════════════════════════════════ */
+.yt-section {
+  position: relative;
+  background: var(--earth);
+  padding: 9rem 6vw;
+  overflow: hidden;
+  min-height: 55vh;
+  display: flex; align-items: center;
+}
+.yt-bg-glow {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(59,92,114,.45) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 110%, rgba(74,103,65,.22) 0%, transparent 55%);
+}
+.yt-inner { position: relative; z-index: 1; max-width: 700px; }
+.yt-title { font-family: var(--ff-head); font-size: clamp(3.5rem,8vw,9rem); line-height: .86; letter-spacing: .02em; color: #fff; margin: .6rem 0 .8rem; }
+.yt-title em { font-family: var(--ff-serif); font-style: italic; color: var(--khaki); display: block; }
+.yt-sub { font-family: var(--ff-body); font-style: italic; font-size: .95rem; color: rgba(240,235,224,.48); line-height: 1.9; margin-bottom: 2.5rem; max-width: 480px; }
+.yt-btn { display: inline-flex; align-items: center; gap: .65rem; padding: 1rem 2.5rem; background: #FF0000; color: #fff; font-size: .72rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; border-radius: 2px; transition: background .2s, transform .25s, box-shadow .25s; }
+.yt-btn:hover { background: #cc0000; transform: translateY(-3px); box-shadow: 0 12px 40px rgba(255,0,0,.28); }
+
+/* ══════════════════════════════════════════
+   NEWSLETTER — moss earth
+══════════════════════════════════════════ */
+.nl-section { background: var(--moss); padding: 5.5rem 6vw; display: flex; align-items: center; justify-content: space-between; gap: 4rem; flex-wrap: wrap; }
+.nl-heading { font-family: var(--ff-head); font-size: clamp(2rem,4.5vw,4rem); line-height: .92; color: #fff; }
+.nl-heading em { font-family: var(--ff-serif); font-style: italic; color: var(--khaki); }
+.nl-sub { font-family: var(--ff-body); font-style: italic; font-size: .88rem; color: rgba(240,235,224,.55); margin-top: .5rem; }
+.nl-form { display: flex; max-width: 460px; width: 100%; }
+.nl-input { flex:1; padding: .95rem 1.3rem; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); border-right: none; color: #fff; font-family: var(--ff-ui); font-size: .88rem; outline: none; transition: border-color .2s; }
+.nl-input::placeholder { color: rgba(240,235,224,.32); }
+.nl-input:focus { border-color: var(--khaki); }
+.nl-btn { padding: .95rem 1.6rem; background: var(--sienna); border: none; color: #fff; font-size: .7rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; white-space: nowrap; transition: background .2s; }
+.nl-btn:hover { background: #9a4e1e; }
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width:1000px) {
+  .hero-content { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .pillars-grid { grid-template-columns: repeat(2,1fr); }
+  .field-grid { grid-template-columns: 1fr; }
+  .field-card-main { min-height: 420px; grid-row: auto; }
+  .intro-strip { grid-template-columns: 1fr; gap: 2rem; padding: 5rem 1.5rem; }
+  .intro-num { font-size: 8rem; }
+}
+@media (max-width:700px) {
+  .hero-h1 { font-size: clamp(4rem,16vw,7rem); }
+  .hero-content { padding: 0 1.5rem 6rem; }
+  .pillars-grid { grid-template-columns: 1fr; }
+  .pillars-section, .field-notes, .yt-section { padding: 5rem 1.5rem; }
+  .nl-section { flex-direction: column; padding: 4.5rem 1.5rem; }
+  .nl-form { max-width: 100%; }
+}
+  </style>
+</head>
+<body>
+
+<div id="ob-cursor"></div>
+<div id="ob-ring"></div>
+
+<!-- MOBILE DRAWER -->
+<div class="ob-drawer" id="ob-drawer">
+  <button class="ob-drawer-close" onclick="closeDrawer()">&#x2715;</button>
+  <a href="index.html"    onclick="closeDrawer()">Home</a>
+  <a href="shop.html"     onclick="closeDrawer()">Shop</a>
+  <a href="about.html"    onclick="closeDrawer()">About</a>
+  <a href="youtube.html"  onclick="closeDrawer()">YouTube</a>
+  <a href="sandlot.html"  onclick="closeDrawer()">Sandlot</a>
+  <a href="contact.html"  onclick="closeDrawer()">Contact</a>
+</div>
+
+<!-- NAV -->
+<nav class="ob-nav">
+  <a href="index.html" class="ob-nav-logo">Outdoor Bills</a>
+  <div class="ob-nav-links">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="about.html">About</a>
+    <a href="youtube.html">YouTube</a>
+    <a href="sandlot.html">Sandlot Revival</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <a href="shop.html" class="ob-nav-cta">Shop Now</a>
+  <button class="ob-nav-burger" onclick="openDrawer()"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-scene"></div>
+  <div class="hero-light hero-light-1"></div>
+  <div class="hero-light hero-light-2"></div>
+  <div class="hero-light hero-light-3"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-scan"></div>
+
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-kicker">
+        <span class="hero-kicker-dot"></span>
+        Est. 2023 &nbsp;&#8231;&nbsp; Middle Georgia
+      </div>
+      <h1 class="hero-h1">
+        OUTDOOR<br/>
+        <span class="kw">Bills.</span>
+      </h1>
+      <p class="hero-sub">Finding Joy In The Outdoors — on the water, in the field, and around the world.</p>
+      <div class="hero-actions">
+        <a href="shop.html" class="btn-solid">
+          Shop the Collection
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="about.html" class="btn-outline">Our Story</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-stat"><span class="hero-stat-n">2023</span><span class="hero-stat-l">Est.</span></div>
+      <div class="hero-stat"><span class="hero-stat-n">&#8734;</span><span class="hero-stat-l">Adventures</span></div>
+      <div class="hero-stat"><span class="hero-stat-n">100%</span><span class="hero-stat-l">Outdoors</span></div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="ob-marquee">
+  <div class="ob-marquee-track">
+    <span>Find Joy</span><span class="ob-marquee-gem">&#9670;</span>
+    <span>Get Outdoors</span><span class="ob-marquee-gem">&#9670;</span>
+    <span>Fish On</span><span class="ob-marquee-gem">&#9670;</span>
+    <span>Hunt More</span><span class="ob-marquee-gem">&#9670;</span>
+    <span>Around The World</span><span class="ob-marquee-gem">&#9670;</span>
+    <span>Est. 2023</span><span class="ob-marquee-gem">&#9670;</span>
+    <span>Find Joy</span><span class="ob-marquee-gem">&#9670;</span>
+    <span>Get Outdoors</span><span class="ob-marquee-gem">&#9670;</span>
+    <span>Fish On</span><span class="ob-marquee-gem">&#9670;</span>
+    <span>Hunt More</span><span class="ob-marquee-gem">&#9670;</span>
+    <span>Around The World</span><span class="ob-marquee-gem">&#9670;</span>
+    <span>Est. 2023</span><span class="ob-marquee-gem">&#9670;</span>
+  </div>
+</div>
+
+<!-- ══ INTRO ══ -->
+<section class="intro-strip">
+  <div class="intro-num ob-reveal">01</div>
+  <div class="intro-text ob-reveal d2">
+    <span class="ob-eyebrow">What We Are</span>
+    <h2 class="ob-title" style="font-size:clamp(2.5rem,4vw,4.5rem);color:var(--text);">More Than <em style="color:var(--river);">A Brand</em></h2>
+    <div class="intro-bar"></div>
+    <div class="intro-pull">"The outdoors became more than a hobby — it became a way of life."</div>
+    <p class="intro-body">I grew up fishing and hunting in the woods and waters of Middle Georgia, where going outside is where I feel most connected to what truly matters.</p>
+    <p class="intro-body">Outdoor Bills started as a way to share that love with others — people who feel most alive when they are on the water, in the woods, or chasing adventure around the world.</p>
+    <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
+      <a href="about.html" class="btn-solid">Read Our Story <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PILLARS ══ -->
+<section class="pillars-section">
+  <div class="pillars-header ob-reveal">
+    <span class="ob-eyebrow khaki">How We Live</span>
+    <h2 class="ob-title" style="font-size:clamp(3rem,5.5vw,6rem);color:#fff;">The Four <em>Pursuits</em></h2>
+  </div>
+  <div class="pillars-grid">
+    <div class="pillar-card ob-reveal d1" data-n="01">
+      <span class="pillar-icon">&#127920;</span>
+      <div class="pillar-title">Fish On</div>
+      <p class="pillar-body">On the water from first light. Chasing the catch wherever it takes us — from Middle Georgia to the ends of the earth.</p>
+    </div>
+    <div class="pillar-card ob-reveal d2" data-n="02">
+      <span class="pillar-icon">&#129420;</span>
+      <div class="pillar-title">Hunt More</div>
+      <p class="pillar-body">In the field at dawn. Patience, tradition, and the thrill of the wild. Some things never get old.</p>
+    </div>
+    <div class="pillar-card ob-reveal d3" data-n="03">
+      <span class="pillar-icon">&#127807;</span>
+      <div class="pillar-title">Get Outdoors</div>
+      <p class="pillar-body">Any trail, any terrain, any weather. Life is better outside — get out there and go find it.</p>
+    </div>
+    <div class="pillar-card ob-reveal d4" data-n="04">
+      <span class="pillar-icon">&#128591;</span>
+      <div class="pillar-title">Find Joy</div>
+      <p class="pillar-body">Faith, community, and the outdoors. That is what Outdoor Bills is all about. That is why we are here.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FIELD NOTES / CATEGORY CARDS ══ -->
+<section class="field-notes">
+  <div class="ob-reveal">
+    <span class="ob-eyebrow">The Shop</span>
+    <h2 class="ob-title" style="font-size:clamp(2.8rem,5vw,5.5rem);color:var(--text);">Gear Built For <em style="color:var(--river);">The Field</em></h2>
+  </div>
+  <div class="field-grid">
+    <a href="shop.html" class="field-card field-card-main ob-reveal-l">
+      <div class="field-card-img fc-bg-1"></div>
+      <div class="field-card-veil"></div>
+      <div class="field-card-body">
+        <span class="field-card-tag">Collection &#8231; New Arrival</span>
+        <div class="field-card-title">Hats &amp; Caps</div>
+        <p class="field-card-sub">Classic OB snapbacks and field caps built for the water and the woods.</p>
+        <span class="field-card-arrow">Shop Now &#8594;</span>
+      </div>
+    </a>
+    <a href="shop.html" class="field-card field-card-sm ob-reveal-r d1">
+      <div class="field-card-img fc-bg-2"></div>
+      <div class="field-card-veil"></div>
+      <div class="field-card-body">
+        <span class="field-card-tag">Collection</span>
+        <div class="field-card-title">Apparel</div>
+        <p class="field-card-sub">Tees, hoodies, and layers made for the field.</p>
+        <span class="field-card-arrow">Shop Now &#8594;</span>
+      </div>
+    </a>
+    <a href="shop.html" class="field-card field-card-sm ob-reveal-r d2">
+      <div class="field-card-img fc-bg-3"></div>
+      <div class="field-card-veil"></div>
+      <div class="field-card-body">
+        <span class="field-card-tag">Collection</span>
+        <div class="field-card-title">Accessories</div>
+        <p class="field-card-sub">Stickers, patches, and everything else.</p>
+        <span class="field-card-arrow">Shop Now &#8594;</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ══ YOUTUBE ══ -->
+<section class="yt-section">
+  <div class="yt-bg-glow"></div>
+  <div class="yt-inner">
+    <span class="ob-eyebrow light ob-reveal">Watch &amp; Subscribe</span>
+    <h2 class="yt-title ob-reveal d1">On The<br/><em>Channel</em></h2>
+    <p class="yt-sub ob-reveal d2">Fishing, hunting, and outdoor adventures from around the world. Follow along with Bill Leroy on YouTube and never miss a trip.</p>
+    <a href="youtube.html" class="yt-btn ob-reveal d3">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      Watch on YouTube
+    </a>
+  </div>
+</section>
+
+<!-- ══ NEWSLETTER ══ -->
+<section class="nl-section">
+  <div class="ob-reveal">
+    <span class="ob-eyebrow" style="color:rgba(196,170,122,.8);">Stay In Touch</span>
+    <h2 class="nl-heading">Sign Up For <em>Updates</em></h2>
+    <p class="nl-sub">New drops, adventures, and stories from the field.</p>
+  </div>
+  <div class="ob-reveal d2">
+    <form class="nl-form" onsubmit="this.innerHTML='<p style=\'color:rgba(240,235,224,.7);font-style:italic;font-family:var(--ff-body);font-size:.88rem;\'>You are in. Talk soon.</p>';return false;">
+      <input class="nl-input" type="email" placeholder="Enter your email" required/>
+      <button class="nl-btn" type="submit">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="ob-footer-wrap">
+  <footer class="ob-footer">
+    <div class="ob-footer-grid">
+      <div>
+        <a href="index.html" class="ob-footer-logo">Outdoor Bills</a>
+        <p class="ob-footer-tag">For your next adventure.</p>
+        <div class="ob-footer-soc">
+          <a href="https://instagram.com/outdoorbills" target="_blank">IG</a>
+          <a href="https://www.youtube.com/@bill_leroy" target="_blank">YT</a>
+          <a href="https://tiktok.com/@outdoorbills" target="_blank">TK</a>
+        </div>
+      </div>
+      <div class="ob-footer-col">
+        <h5>Shop</h5>
+        <ul>
+          <li><a href="shop.html">All Products</a></li>
+          <li><a href="shop.html">Hats &amp; Caps</a></li>
+          <li><a href="shop.html">Apparel</a></li>
+        </ul>
+      </div>
+      <div class="ob-footer-col">
+        <h5>About</h5>
+        <ul>
+          <li><a href="about.html">Our Story</a></li>
+          <li><a href="youtube.html">YouTube</a></li>
+          <li><a href="sandlot.html">Sandlot Revival</a></li>
+        </ul>
+      </div>
+      <div class="ob-footer-col">
+        <h5>Connect</h5>
+        <ul>
+          <li><a href="https://instagram.com/outdoorbills" target="_blank">Instagram</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="https://www.youtube.com/@bill_leroy" target="_blank">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ob-footer-bottom">
+      <span>&copy; <span class="ob-year"></span> Outdoor Bills. All rights reserved.</span>
+      <span>Finding Joy In The Outdoors</span>
+    </div>
+  </footer>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

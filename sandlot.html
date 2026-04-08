@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Sandlot Revival — Outdoor Bills</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+
+/* ══ SANDLOT HERO ══ */
+.sl-hero {
+  height: 100vh; min-height: 700px; position: relative;
+  display: flex; align-items: flex-end; overflow: hidden;
+  background: linear-gradient(160deg,#060e08 0%,#0d1e12 30%,#142010 65%,#060e08 100%);
+}
+.sl-hero-glow { position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 30% 60%,rgba(74,103,65,.5) 0%,transparent 55%),radial-gradient(ellipse at 80% 20%,rgba(59,92,114,.2) 0%,transparent 45%); }
+.sl-hero-grain { position:absolute;inset:0;pointer-events:none;opacity:.4;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E"); }
+.sl-hero-letter { position:absolute;bottom:-5rem;right:-3rem;font-family:var(--ff-head);font-size:40vw;color:rgba(255,255,255,.015);line-height:1;pointer-events:none;z-index:1;letter-spacing:-.04em; }
+
+.sl-hero-content { position:relative;z-index:3;padding:0 6vw 6rem; }
+.sl-hero-kicker { display:inline-flex;align-items:center;gap:.6rem;font-size:.6rem;letter-spacing:.45em;text-transform:uppercase;color:rgba(122,155,110,.9);padding:.22rem .9rem;border:1px solid rgba(122,155,110,.2);border-radius:30px;background:rgba(74,103,65,.15);backdrop-filter:blur(8px);margin-bottom:1.4rem;opacity:0;animation:rise .8s .3s forwards; }
+.sl-hero-h1 { font-family:var(--ff-head);font-size:clamp(4rem,12vw,13rem);line-height:.86;letter-spacing:.02em;color:#fff;opacity:0;animation:rise 1s .5s forwards; }
+.sl-hero-h1 em { font-family:var(--ff-serif);font-style:italic;color:var(--khaki);display:block; }
+.sl-hero-sub { font-family:var(--ff-body);font-style:italic;font-size:1rem;color:rgba(240,235,224,.45);line-height:1.85;max-width:480px;margin-top:1.5rem;opacity:0;animation:rise 1s .7s forwards; }
+
+@keyframes rise { from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)} }
+
+/* ══ STORY SECTION ══ */
+.sl-story { background:var(--moss);padding:8rem 6vw;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center; }
+.sl-story-img { border-radius:4px;overflow:hidden;aspect-ratio:4/3;background:rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center; }
+.sl-story-img-ph { opacity:.2;text-align:center; }
+.sl-story-img-ph p { font-family:var(--ff-head);font-size:.6rem;letter-spacing:.2em;color:var(--cream);margin-top:.7rem;text-transform:uppercase; }
+.sl-bar { width:44px;height:2.5px;background:var(--khaki);margin:1.4rem 0; }
+.sl-body { font-family:var(--ff-body);font-style:italic;font-size:.97rem;line-height:1.95;color:rgba(240,235,224,.65);margin-bottom:.9rem; }
+.sl-link-btn { display:inline-flex;align-items:center;gap:.5rem;margin-top:1.8rem;padding:1rem 2.4rem;background:rgba(26,18,9,.5);border:1.5px solid rgba(196,170,122,.3);color:var(--khaki);font-size:.72rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;border-radius:2px;backdrop-filter:blur(8px);transition:all .25s; }
+.sl-link-btn:hover { border-color:var(--khaki);background:rgba(196,170,122,.12);transform:translateY(-2px); }
+
+/* ══ VALUES SECTION ══ */
+.sl-values { background:var(--earth2);padding:7rem 6vw; }
+.sl-values-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:3.5rem;background:rgba(255,255,255,.04); }
+.sl-val-card { background:var(--earth);padding:3rem 2rem;border-bottom:2px solid transparent;transition:border-color .3s,background .3s; }
+.sl-val-card:hover { background:#1f1710;border-bottom-color:var(--moss); }
+.sl-val-icon { font-size:2.2rem;display:block;margin-bottom:1rem; }
+.sl-val-title { font-family:var(--ff-head);font-size:1.4rem;letter-spacing:.08em;color:var(--sage);margin-bottom:.5rem; }
+.sl-val-body { font-size:.8rem;color:rgba(240,235,224,.35);line-height:1.75; }
+
+/* ══ QUOTE SECTION ══ */
+.sl-quote { background:var(--earth);padding:9rem 6vw;position:relative;overflow:hidden; }
+.sl-quote::before { content:'"';position:absolute;top:-3rem;left:4vw;font-family:var(--ff-serif);font-size:30vw;color:rgba(74,103,65,.06);line-height:1;pointer-events:none; }
+.sl-quote-inner { position:relative;z-index:1;max-width:900px;margin:0 auto;text-align:center; }
+.sl-quote-text { font-family:var(--ff-serif);font-style:italic;font-size:clamp(1.5rem,3.5vw,3rem);line-height:1.4;color:rgba(240,235,224,.8);margin:1.5rem 0 2rem; }
+.sl-quote-attr { font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(240,235,224,.3); }
+
+/* ══ CONNECT ══ */
+.sl-connect { background:var(--moss);padding:7rem 6vw;display:flex;flex-direction:column;align-items:center;text-align:center; }
+.sl-connect-title { font-family:var(--ff-head);font-size:clamp(3rem,6vw,7rem);line-height:.88;color:#fff;margin:.6rem 0 1rem; }
+.sl-connect-title em { font-family:var(--ff-serif);font-style:italic;color:var(--khaki);display:block; }
+.sl-connect-sub { font-family:var(--ff-body);font-style:italic;font-size:.95rem;color:rgba(240,235,224,.55);max-width:500px;margin-bottom:2.5rem;line-height:1.9; }
+.sl-ext-btn { display:inline-flex;align-items:center;gap:.6rem;padding:1.1rem 2.6rem;background:rgba(26,18,9,.6);border:1.5px solid rgba(196,170,122,.35);color:var(--khaki);font-size:.75rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;border-radius:2px;backdrop-filter:blur(10px);transition:all .25s; }
+.sl-ext-btn:hover { border-color:var(--khaki);background:rgba(196,170,122,.1);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.25); }
+
+@media (max-width:900px) {
+  .sl-story { grid-template-columns:1fr;gap:3rem;padding:5rem 1.5rem; }
+  .sl-values-grid { grid-template-columns:1fr; }
+  .sl-values,.sl-quote { padding:5rem 1.5rem; }
+  .sl-connect { padding:5rem 1.5rem; }
+  .sl-hero-content { padding:0 1.5rem 5rem; }
+}
+  </style>
+</head>
+<body>
+<div id="ob-cursor"></div>
+<div id="ob-ring"></div>
+<div class="ob-drawer" id="ob-drawer">
+  <button class="ob-drawer-close" onclick="closeDrawer()">&#x2715;</button>
+  <a href="index.html" onclick="closeDrawer()">Home</a>
+  <a href="shop.html" onclick="closeDrawer()">Shop</a>
+  <a href="about.html" onclick="closeDrawer()">About</a>
+  <a href="youtube.html" onclick="closeDrawer()">YouTube</a>
+  <a href="sandlot.html" onclick="closeDrawer()">Sandlot</a>
+  <a href="contact.html" onclick="closeDrawer()">Contact</a>
+</div>
+<nav class="ob-nav">
+  <a href="index.html" class="ob-nav-logo">Outdoor Bills</a>
+  <div class="ob-nav-links">
+    <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="about.html">About</a><a href="youtube.html">YouTube</a><a href="sandlot.html">Sandlot Revival</a><a href="contact.html">Contact</a>
+  </div>
+  <a href="shop.html" class="ob-nav-cta">Shop Now</a>
+  <button class="ob-nav-burger" onclick="openDrawer()"><span></span><span></span><span></span></button>
+</nav>
+
+<section class="sl-hero">
+  <div class="sl-hero-glow"></div>
+  <div class="sl-hero-grain"></div>
+  <div class="sl-hero-letter">S</div>
+  <div class="sl-hero-content">
+    <div class="sl-hero-kicker">Faith &#8231; Community &#8231; Outdoors</div>
+    <h1 class="sl-hero-h1">Sandlot<br/><em>Revival</em></h1>
+    <p class="sl-hero-sub">More than the outdoors — a community rooted in faith and the belief that life is best lived together, outside.</p>
+  </div>
+</section>
+
+<section class="sl-story">
+  <div class="sl-story-img ob-reveal-l">
+    <div class="sl-story-img-ph">
+      <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="rgba(240,235,224,.25)" stroke-width="1"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <p>Add Sandlot Photo Here</p>
+    </div>
+  </div>
+  <div class="ob-reveal-r">
+    <span class="ob-eyebrow" style="color:rgba(196,170,122,.85);">Our Community</span>
+    <h2 class="ob-title" style="font-size:clamp(2.5rem,4.5vw,5rem);color:#fff;">More Than <em style="color:var(--khaki);">The Outdoors</em></h2>
+    <div class="sl-bar"></div>
+    <p class="sl-body">Sandlot Revival is about more than the outdoors. It is a community rooted in faith, friendship, and the belief that life is best lived together — outside.</p>
+    <p class="sl-body">Outdoor Bills is proud to be part of that mission. A portion of what we do goes right back into building that community and spreading that message to people everywhere.</p>
+    <p class="sl-body">When you buy from Outdoor Bills, you are not just getting gear — you are supporting something bigger.</p>
+    <a href="https://sandlotrevival.org" class="sl-link-btn" target="_blank" rel="noopener">
+      Visit sandlotrevival.org
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    </a>
+  </div>
+</section>
+
+<section class="sl-values">
+  <div class="ob-reveal">
+    <span class="ob-eyebrow khaki">What We Stand For</span>
+    <h2 class="ob-title" style="font-size:clamp(2.5rem,4.5vw,5.5rem);color:#fff;">Built On <em style="color:var(--sage);">These Values</em></h2>
+  </div>
+  <div class="sl-values-grid">
+    <div class="sl-val-card ob-reveal d1">
+      <span class="sl-val-icon">&#127981;</span>
+      <div class="sl-val-title">Faith</div>
+      <p class="sl-val-body">Everything Sandlot Revival does is grounded in faith. The outdoors is where we feel closest to something bigger than ourselves.</p>
+    </div>
+    <div class="sl-val-card ob-reveal d2">
+      <span class="sl-val-icon">&#129309;</span>
+      <div class="sl-val-title">Community</div>
+      <p class="sl-val-body">Life is better together. Sandlot Revival is about building real community — people who show up for each other in and out of the field.</p>
+    </div>
+    <div class="sl-val-card ob-reveal d3">
+      <span class="sl-val-icon">&#127807;</span>
+      <div class="sl-val-title">The Outdoors</div>
+      <p class="sl-val-body">Nature is where we come alive. The woods, the water, the open field — these are not just places, they are where memories are made.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sl-quote">
+  <div class="sl-quote-inner ob-reveal">
+    <span class="ob-eyebrow khaki">The Mission</span>
+    <p class="sl-quote-text">"The best things in life happen outside — with people you love, chasing something worth chasing."</p>
+    <p class="sl-quote-attr">&#8231; Outdoor Bills &#8231; Sandlot Revival</p>
+  </div>
+</section>
+
+<section class="sl-connect">
+  <span class="ob-eyebrow ob-reveal" style="color:rgba(196,170,122,.85);">Get Involved</span>
+  <h2 class="sl-connect-title ob-reveal d1">Join The<br/><em>Community</em></h2>
+  <p class="sl-connect-sub ob-reveal d2">Head over to sandlotrevival.org to learn more about the community, the mission, and how to get involved.</p>
+  <a href="https://sandlotrevival.org" class="sl-ext-btn ob-reveal d3" target="_blank" rel="noopener">
+    Visit sandlotrevival.org
+    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+  </a>
+</section>
+
+<div class="ob-footer-wrap"><footer class="ob-footer"><div class="ob-footer-grid"><div><a href="index.html" class="ob-footer-logo">Outdoor Bills</a><p class="ob-footer-tag">For your next adventure.</p><div class="ob-footer-soc"><a href="https://instagram.com/outdoorbills" target="_blank">IG</a><a href="https://www.youtube.com/@bill_leroy" target="_blank">YT</a><a href="https://tiktok.com/@outdoorbills" target="_blank">TK</a></div></div><div class="ob-footer-col"><h5>Shop</h5><ul><li><a href="shop.html">All Products</a></li><li><a href="shop.html">Hats &amp; Caps</a></li></ul></div><div class="ob-footer-col"><h5>About</h5><ul><li><a href="about.html">Our Story</a></li><li><a href="youtube.html">YouTube</a></li><li><a href="sandlot.html">Sandlot Revival</a></li></ul></div><div class="ob-footer-col"><h5>Connect</h5><ul><li><a href="contact.html">Contact</a></li><li><a href="https://sandlotrevival.org" target="_blank">Sandlot Revival</a></li></ul></div></div><div class="ob-footer-bottom"><span>&copy; <span class="ob-year"></span> Outdoor Bills.</span><span>Finding Joy In The Outdoors</span></div></footer></div>
+<script src="main.js"></script>
+</body>
+</html>

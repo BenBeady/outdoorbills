@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Shop — Outdoor Bills</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+
+/* ══ SHOP PAGE HERO ══ */
+.shop-hero {
+  height: 55vh; min-height: 440px;
+  position: relative; display: flex; align-items: flex-end;
+  overflow: hidden;
+  background:
+    linear-gradient(to bottom, rgba(26,18,9,.1) 0%, rgba(26,18,9,.95) 100%),
+    linear-gradient(135deg, #0a1a10 0%, #162d20 30%, #1a3040 65%, #0d1a10 100%);
+}
+.shop-hero-light { position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 30%, rgba(59,92,114,.35) 0%, transparent 60%); pointer-events: none; }
+.shop-hero-content { position: relative; z-index: 2; padding: 0 6vw 4.5rem; }
+.shop-hero-title { font-family: var(--ff-head); font-size: clamp(4rem,10vw,10rem); line-height: .86; letter-spacing: .02em; color: #fff; }
+.shop-hero-title em { font-family: var(--ff-serif); font-style: italic; color: var(--khaki); }
+.shop-hero-sub { font-family: var(--ff-body); font-style: italic; font-size: .95rem; color: rgba(240,235,224,.45); margin-top: 1rem; }
+
+/* ══ FILTER BAR ══ */
+.filter-bar {
+  background: var(--earth2); border-bottom: 1px solid rgba(255,255,255,.05);
+  position: sticky; top: 72px; z-index: 100;
+  padding: 0 6vw;
+}
+.filter-inner { display: flex; align-items: center; gap: .4rem; overflow-x: auto; scrollbar-width: none; padding: .9rem 0; }
+.filter-inner::-webkit-scrollbar { display: none; }
+.filter-btn {
+  font-size: .62rem; letter-spacing: .18em; text-transform: uppercase; font-weight: 500;
+  padding: .38rem 1.1rem; border-radius: 30px;
+  border: 1px solid rgba(255,255,255,.08); color: rgba(240,235,224,.45);
+  background: none; white-space: nowrap;
+  transition: all .2s;
+}
+.filter-btn:hover { color: var(--khaki); border-color: rgba(196,170,122,.3); }
+.filter-btn.on { background: var(--sienna); border-color: var(--sienna); color: #fff; }
+
+/* ══ PRODUCT GRID ══ */
+.shop-body { background: var(--earth); padding: 5rem 6vw 8rem; }
+.shop-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; background: rgba(255,255,255,.04); }
+
+.prod-card {
+  background: var(--earth2); position: relative; overflow: hidden;
+  aspect-ratio: 3/4; display: flex; flex-direction: column;
+  text-decoration: none;
+}
+.prod-img {
+  flex: 1; position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(145deg, #1a2820, #243d4a, #1a2018);
+  transition: filter .4s;
+}
+.prod-img-inner { opacity: .25; text-align: center; pointer-events: none; }
+.prod-img-inner p { font-family: var(--ff-head); font-size: .6rem; letter-spacing: .25em; color: var(--cream); margin-top: .6rem; text-transform: uppercase; }
+.prod-card:hover .prod-img { filter: brightness(.85); }
+.prod-badge { position: absolute; top: 1rem; left: 1rem; background: var(--sienna); color: #fff; font-size: .52rem; letter-spacing: .22em; text-transform: uppercase; padding: .22rem .65rem; border-radius: 2px; z-index: 2; }
+.prod-info { padding: 1.4rem; background: var(--earth2); border-top: 1px solid rgba(255,255,255,.05); }
+.prod-name { font-family: var(--ff-head); font-size: 1.15rem; letter-spacing: .07em; color: #fff; margin-bottom: .25rem; }
+.prod-price { font-size: .78rem; color: var(--khaki); font-weight: 500; }
+.prod-card-hover-cta {
+  position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center;
+  padding-bottom: 5.5rem;
+  background: rgba(26,18,9,.6);
+  opacity: 0; transition: opacity .35s;
+}
+.prod-card:hover .prod-card-hover-cta { opacity: 1; }
+.prod-cta-inner { font-family: var(--ff-head); font-size: .85rem; letter-spacing: .2em; color: var(--khaki); border-bottom: 1px solid var(--khaki); padding-bottom: .2rem; }
+
+/* coming soon placeholder */
+.prod-coming { background: var(--earth); display: flex; align-items: center; justify-content: center; aspect-ratio: 3/4; border: 1px dashed rgba(255,255,255,.06); }
+.prod-coming p { font-family: var(--ff-head); font-size: .7rem; letter-spacing: .3em; color: rgba(240,235,224,.15); text-transform: uppercase; }
+
+/* ══ FEATURE CALLOUT INSIDE GRID ══ */
+.shop-callout {
+  grid-column: span 3; background: var(--earth2);
+  padding: 4rem; display: flex; align-items: center; gap: 4rem;
+  border: 1px solid rgba(255,255,255,.04);
+}
+.shop-callout-text { flex: 1; }
+.shop-callout-title { font-family: var(--ff-head); font-size: clamp(2rem,4vw,4rem); letter-spacing: .03em; color: #fff; line-height: .9; }
+.shop-callout-title em { font-family: var(--ff-serif); font-style: italic; color: var(--khaki); }
+.shop-callout-body { font-family: var(--ff-body); font-style: italic; font-size: .88rem; color: rgba(240,235,224,.45); line-height: 1.85; margin: 1rem 0 1.8rem; max-width: 440px; }
+.shop-callout-img { width: 280px; height: 200px; border-radius: 3px; background: linear-gradient(135deg,#1a2e1e,#243d4a); flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.shop-callout-img-ph { opacity: .2; text-align: center; }
+.shop-callout-img-ph p { font-family: var(--ff-head); font-size: .6rem; letter-spacing: .2em; color: var(--cream); margin-top: .5rem; }
+
+@media (max-width:900px) {
+  .shop-grid { grid-template-columns: repeat(2,1fr); }
+  .shop-callout { grid-column: span 2; flex-direction: column; gap: 2rem; padding: 2.5rem; }
+  .shop-callout-img { width: 100%; }
+  .shop-body { padding: 3rem 1.5rem 6rem; }
+  .filter-bar { padding: 0 1.5rem; }
+}
+@media (max-width:500px) {
+  .shop-grid { grid-template-columns: 1fr; }
+  .shop-callout { grid-column: span 1; }
+}
+  </style>
+</head>
+<body>
+<div id="ob-cursor"></div>
+<div id="ob-ring"></div>
+
+<div class="ob-drawer" id="ob-drawer">
+  <button class="ob-drawer-close" onclick="closeDrawer()">&#x2715;</button>
+  <a href="index.html"   onclick="closeDrawer()">Home</a>
+  <a href="shop.html"    onclick="closeDrawer()">Shop</a>
+  <a href="about.html"   onclick="closeDrawer()">About</a>
+  <a href="youtube.html" onclick="closeDrawer()">YouTube</a>
+  <a href="sandlot.html" onclick="closeDrawer()">Sandlot</a>
+  <a href="contact.html" onclick="closeDrawer()">Contact</a>
+</div>
+
+<nav class="ob-nav">
+  <a href="index.html" class="ob-nav-logo">Outdoor Bills</a>
+  <div class="ob-nav-links">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="about.html">About</a>
+    <a href="youtube.html">YouTube</a>
+    <a href="sandlot.html">Sandlot Revival</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <a href="shop.html" class="ob-nav-cta">Shop Now</a>
+  <button class="ob-nav-burger" onclick="openDrawer()"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<section class="shop-hero">
+  <div class="shop-hero-light"></div>
+  <div class="shop-hero-content ob-reveal">
+    <span class="ob-eyebrow light">The Collection</span>
+    <h1 class="shop-hero-title">The<br/><em>Shop</em></h1>
+    <p class="shop-hero-sub">Gear built for people who actually go outside.</p>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="filter-inner">
+    <button class="filter-btn on" onclick="filterProducts(this,'all')">All Products</button>
+    <button class="filter-btn" onclick="filterProducts(this,'hats')">Hats &amp; Caps</button>
+    <button class="filter-btn" onclick="filterProducts(this,'apparel')">Apparel</button>
+    <button class="filter-btn" onclick="filterProducts(this,'accessories')">Accessories</button>
+    <button class="filter-btn" onclick="filterProducts(this,'new')">New Arrivals</button>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section class="shop-body">
+  <div class="shop-grid" id="shop-grid">
+
+    <!-- CALLOUT TOP -->
+    <div class="shop-callout ob-reveal">
+      <div class="shop-callout-text">
+        <span class="ob-eyebrow khaki">New Arrival</span>
+        <h2 class="shop-callout-title">OB Original<br/><em>Bass Cap</em></h2>
+        <p class="shop-callout-body">The cap that started it all. Stone and olive colorway, embroidered bass logo, structured snapback. Built for the water and the woods.</p>
+        <a href="shop.html" class="btn-solid">Shop the Hat <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <div class="shop-callout-img">
+        <div class="shop-callout-img-ph">
+          <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="rgba(240,235,224,.3)" stroke-width="1"><rect x="2" y="2" width="20" height="20" rx="2"/><circle cx="8" cy="8" r="2"/><path d="m2 14 6-6 4 4 2-2 8 8"/></svg>
+          <p>Add Hat Photo</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCT CARDS -->
+    <a href="shop.html" class="prod-card ob-reveal d1" data-cat="hats">
+      <div class="prod-img">
+        <div class="prod-img-inner">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(240,235,224,.3)" stroke-width="1"><rect x="2" y="2" width="20" height="20" rx="2"/><circle cx="8" cy="8" r="2"/><path d="m2 14 6-6 4 4 2-2 8 8"/></svg>
+          <p>Upload Photo</p>
+        </div>
+        <span class="prod-badge">Best Seller</span>
+        <div class="prod-card-hover-cta"><span class="prod-cta-inner">View Product</span></div>
+      </div>
+      <div class="prod-info">
+        <div class="prod-name">OB Bass Cap</div>
+        <div class="prod-price">$34.99</div>
+      </div>
+    </a>
+
+    <a href="shop.html" class="prod-card ob-reveal d2" data-cat="hats">
+      <div class="prod-img" style="background:linear-gradient(145deg,#1e2d1a,#2d4020,#243040);">
+        <div class="prod-img-inner">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(240,235,224,.3)" stroke-width="1"><rect x="2" y="2" width="20" height="20" rx="2"/><circle cx="8" cy="8" r="2"/><path d="m2 14 6-6 4 4 2-2 8 8"/></svg>
+          <p>Upload Photo</p>
+        </div>
+        <div class="prod-card-hover-cta"><span class="prod-cta-inner">View Product</span></div>
+      </div>
+      <div class="prod-info">
+        <div class="prod-name">OB Bucket Hat</div>
+        <div class="prod-price">$29.99</div>
+      </div>
+    </a>
+
+    <a href="shop.html" class="prod-card ob-reveal d3" data-cat="apparel">
+      <div class="prod-img" style="background:linear-gradient(145deg,#1e1a10,#302818,#1a2830);">
+        <div class="prod-img-inner">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(240,235,224,.3)" stroke-width="1"><rect x="2" y="2" width="20" height="20" rx="2"/><circle cx="8" cy="8" r="2"/><path d="m2 14 6-6 4 4 2-2 8 8"/></svg>
+          <p>Upload Photo</p>
+        </div>
+        <span class="prod-badge">New</span>
+        <div class="prod-card-hover-cta"><span class="prod-cta-inner">View Product</span></div>
+      </div>
+      <div class="prod-info">
+        <div class="prod-name">OB Field Tee</div>
+        <div class="prod-price">$28.99</div>
+      </div>
+    </a>
+
+    <a href="shop.html" class="prod-card ob-reveal d1" data-cat="apparel">
+      <div class="prod-img" style="background:linear-gradient(145deg,#101e18,#1a3028,#202830);">
+        <div class="prod-img-inner">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(240,235,224,.3)" stroke-width="1"><rect x="2" y="2" width="20" height="20" rx="2"/><circle cx="8" cy="8" r="2"/><path d="m2 14 6-6 4 4 2-2 8 8"/></svg>
+          <p>Upload Photo</p>
+        </div>
+        <div class="prod-card-hover-cta"><span class="prod-cta-inner">View Product</span></div>
+      </div>
+      <div class="prod-info">
+        <div class="prod-name">OB Hoodie</div>
+        <div class="prod-price">$54.99</div>
+      </div>
+    </a>
+
+    <a href="shop.html" class="prod-card ob-reveal d2" data-cat="accessories">
+      <div class="prod-img" style="background:linear-gradient(145deg,#1a1410,#2a2018,#1a2428);">
+        <div class="prod-img-inner">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(240,235,224,.3)" stroke-width="1"><rect x="2" y="2" width="20" height="20" rx="2"/><circle cx="8" cy="8" r="2"/><path d="m2 14 6-6 4 4 2-2 8 8"/></svg>
+          <p>Upload Photo</p>
+        </div>
+        <div class="prod-card-hover-cta"><span class="prod-cta-inner">View Product</span></div>
+      </div>
+      <div class="prod-info">
+        <div class="prod-name">OB Sticker Pack</div>
+        <div class="prod-price">$12.99</div>
+      </div>
+    </a>
+
+    <a href="shop.html" class="prod-card ob-reveal d3" data-cat="accessories">
+      <div class="prod-img" style="background:linear-gradient(145deg,#181218,#281e28,#1a2028);">
+        <div class="prod-img-inner">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(240,235,224,.3)" stroke-width="1"><rect x="2" y="2" width="20" height="20" rx="2"/><circle cx="8" cy="8" r="2"/><path d="m2 14 6-6 4 4 2-2 8 8"/></svg>
+          <p>Upload Photo</p>
+        </div>
+        <div class="prod-card-hover-cta"><span class="prod-cta-inner">View Product</span></div>
+      </div>
+      <div class="prod-info">
+        <div class="prod-name">OB Patch</div>
+        <div class="prod-price">$8.99</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="ob-marquee">
+  <div class="ob-marquee-track">
+    <span>Shop Now</span><span class="ob-marquee-gem">&#9670;</span>
+    <span>Hats &amp; Caps</span><span class="ob-marquee-gem">&#9670;</span>
+    <span>Apparel</span><span class="ob-marquee-gem">&#9670;</span>
+    <span>Accessories</span><span class="ob-marquee-gem">&#9670;</span>
+    <span>New Arrivals</span><span class="ob-marquee-gem">&#9670;</span>
+    <span>Shop Now</span><span class="ob-marquee-gem">&#9670;</span>
+    <span>Hats &amp; Caps</span><span class="ob-marquee-gem">&#9670;</span>
+    <span>Apparel</span><span class="ob-marquee-gem">&#9670;</span>
+    <span>Accessories</span><span class="ob-marquee-gem">&#9670;</span>
+    <span>New Arrivals</span><span class="ob-marquee-gem">&#9670;</span>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="ob-footer-wrap">
+  <footer class="ob-footer">
+    <div class="ob-footer-grid">
+      <div>
+        <a href="index.html" class="ob-footer-logo">Outdoor Bills</a>
+        <p class="ob-footer-tag">For your next adventure.</p>
+        <div class="ob-footer-soc">
+          <a href="https://instagram.com/outdoorbills" target="_blank">IG</a>
+          <a href="https://www.youtube.com/@bill_leroy" target="_blank">YT</a>
+          <a href="https://tiktok.com/@outdoorbills" target="_blank">TK</a>
+        </div>
+      </div>
+      <div class="ob-footer-col"><h5>Shop</h5><ul><li><a href="shop.html">All Products</a></li><li><a href="shop.html">Hats &amp; Caps</a></li><li><a href="shop.html">Apparel</a></li></ul></div>
+      <div class="ob-footer-col"><h5>About</h5><ul><li><a href="about.html">Our Story</a></li><li><a href="youtube.html">YouTube</a></li><li><a href="sandlot.html">Sandlot Revival</a></li></ul></div>
+      <div class="ob-footer-col"><h5>Connect</h5><ul><li><a href="https://instagram.com/outdoorbills" target="_blank">Instagram</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+    </div>
+    <div class="ob-footer-bottom">
+      <span>&copy; <span class="ob-year"></span> Outdoor Bills.</span>
+      <span>Finding Joy In The Outdoors</span>
+    </div>
+  </footer>
+</div>
+
+<script src="main.js"></script>
+<script>
+function filterProducts(btn, cat) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.prod-card').forEach(card => {
+    if (cat === 'all' || card.dataset.cat === cat) {
+      card.style.display = 'flex';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+</script>
+</body>
+</html>

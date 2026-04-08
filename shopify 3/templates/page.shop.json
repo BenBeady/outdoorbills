@@ -1,9 +1,0 @@
-{
-  "sections": {
-    "ob-floating-header": { "type": "ob-floating-header", "disabled": false },
-    "ob-page-shop": { "type": "ob-page-shop" },
-    "ob-newsletter": { "type": "ob-newsletter" },
-    "ob-floating-footer": { "type": "ob-floating-footer" }
-  },
-  "order": ["ob-floating-header","ob-page-shop","ob-newsletter","ob-floating-footer"]
-}

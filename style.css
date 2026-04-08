@@ -38,10 +38,26 @@ button { font-family: var(--ff-ui); }
 
 /* ── CURSOR ── */
 *, *::before, *::after { cursor: none !important; }
-#ob-cursor { width:10px;height:10px;background:var(--sienna);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .25s; }
-#ob-ring   { width:32px;height:32px;border:1.5px solid rgba(181,98,42,.55);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .35s,height .35s,opacity .3s; }
-body.hov #ob-cursor { width:18px;height:18px;background:var(--khaki); }
-body.hov #ob-ring   { width:50px;height:50px;opacity:.25; }
+#ob-cursor {
+  width: 10px; height: 10px;
+  background: var(--sienna);
+  border-radius: 50%;
+  position: fixed; pointer-events: none; z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width .2s, height .2s, background .25s, opacity .15s;
+  will-change: left, top;
+}
+#ob-ring {
+  width: 32px; height: 32px;
+  border: 1.5px solid rgba(181,98,42,.55);
+  border-radius: 50%;
+  position: fixed; pointer-events: none; z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width .3s, height .3s, opacity .2s;
+  will-change: left, top;
+}
+body.hov #ob-cursor { width: 18px; height: 18px; background: var(--khaki); }
+body.hov #ob-ring   { width: 52px; height: 52px; opacity: .22; }
 
 /* ── NAV ── */
 .ob-nav {

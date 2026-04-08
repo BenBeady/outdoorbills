@@ -7,81 +7,138 @@
   <link rel="stylesheet" href="style.css"/>
   <style>
 
-/* ══ YOUTUBE HERO ══ */
+/* ══ YOUTUBE HERO — video background from Bill's channel ══ */
 .yt-hero {
-  height: 100vh; min-height: 700px;
-  position: relative; display: flex; align-items: center; justify-content: center;
-  text-align: center; overflow: hidden;
-  background: var(--earth);
+  height: 100vh; min-height: 700px; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; overflow: hidden; background: var(--earth);
 }
-.yt-hero-bg {
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse at 50% -5%, rgba(59,92,114,.5) 0%, transparent 55%),
-    radial-gradient(ellipse at 50% 105%, rgba(74,103,65,.25) 0%, transparent 50%),
-    radial-gradient(ellipse at 15% 50%, rgba(181,98,42,.12) 0%, transparent 40%),
-    linear-gradient(180deg, #050a06 0%, #0d1a14 40%, #0a1520 70%, #050a06 100%);
+/* YouTube iframe background — muted, autoplay, looped */
+.yt-hero-iframe-wrap {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
 }
-/* CRT scanline effect */
-.yt-hero-scan { position: absolute; inset: 0; pointer-events: none; opacity: .03; background: repeating-linear-gradient(0deg,transparent,transparent 2px,#000 2px,#000 4px); }
-.yt-hero-grain { position: absolute; inset: 0; pointer-events: none; opacity: .4; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E"); }
-
-.yt-hero-inner { position: relative; z-index: 2; max-width: 760px; padding: 0 2rem; }
-.yt-hero-kicker { display: inline-flex; align-items: center; gap: .6rem; font-size: .6rem; letter-spacing: .45em; text-transform: uppercase; color: var(--peach); padding: .22rem .9rem; border: 1px solid rgba(232,196,160,.2); border-radius: 30px; background: rgba(181,98,42,.12); backdrop-filter: blur(8px); margin-bottom: 1.4rem; opacity:0;animation:rise .8s .3s forwards; }
-.yt-hero-h1 { font-family: var(--ff-head); font-size: clamp(4.5rem,13vw,13rem); line-height: .86; letter-spacing: .02em; color: #fff; opacity:0;animation:rise 1s .5s forwards; }
+.yt-hero-iframe-wrap iframe {
+  position: absolute;
+  top: 50%; left: 50%;
+  /* 16:9 ratio, cover the viewport */
+  width: 100vw; height: 56.25vw;
+  min-height: 100vh; min-width: 177.78vh;
+  transform: translate(-50%, -50%);
+  border: none;
+  filter: brightness(.3) saturate(.5);
+}
+/* Fallback gradient shown until iframe loads */
+.yt-hero-fallback {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(ellipse at 50% -5%, rgba(59,92,114,.5) 0%, transparent 55%),
+              radial-gradient(ellipse at 50% 105%, rgba(74,103,65,.25) 0%, transparent 50%),
+              linear-gradient(180deg, #050a06 0%, #0d1a14 40%, #0a1520 70%, #050a06 100%);
+  transition: opacity 1.5s;
+}
+.yt-hero-overlay {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(180deg, rgba(10,15,8,.55) 0%, rgba(10,15,8,.2) 40%, rgba(10,15,8,.75) 100%);
+}
+.yt-hero-grain {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none; opacity: .35; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+}
+.yt-hero-inner {
+  position: relative; z-index: 4; max-width: 760px; padding: 0 2rem;
+}
+.yt-hero-kicker {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-size: .6rem; letter-spacing: .45em; text-transform: uppercase; color: var(--peach);
+  padding: .22rem .9rem; border: 1px solid rgba(232,196,160,.2); border-radius: 30px;
+  background: rgba(181,98,42,.1); backdrop-filter: blur(8px); margin-bottom: 1.4rem;
+  opacity: 0; animation: ytRise .8s .4s forwards;
+}
+.yt-hero-h1 {
+  font-family: var(--ff-head); font-size: clamp(4.5rem, 13vw, 13rem);
+  line-height: .86; letter-spacing: .02em; color: #fff;
+  opacity: 0; animation: ytRise 1s .6s forwards;
+}
 .yt-hero-h1 em { font-family: var(--ff-serif); font-style: italic; color: var(--khaki); display: block; }
-.yt-hero-sub { font-family: var(--ff-body); font-style: italic; font-size: 1rem; color: rgba(240,235,224,.45); line-height: 1.85; margin: 1.5rem auto 2.5rem; max-width: 500px; opacity:0;animation:rise 1s .7s forwards; }
-.yt-big-btn { display: inline-flex; align-items: center; gap: .8rem; padding: 1.2rem 3rem; background: #FF0000; color: #fff; font-size: .78rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; border-radius: 2px; transition: background .2s, transform .25s, box-shadow .25s; opacity:0;animation:rise 1s .9s forwards; }
+.yt-hero-sub {
+  font-family: var(--ff-body); font-style: italic; font-size: 1rem;
+  color: rgba(240,235,224,.5); line-height: 1.85; margin: 1.5rem auto 2.5rem; max-width: 500px;
+  opacity: 0; animation: ytRise 1s .8s forwards;
+}
+.yt-big-btn {
+  display: inline-flex; align-items: center; gap: .7rem;
+  padding: 1.1rem 2.8rem; background: #FF0000; color: #fff;
+  font-size: .75rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase;
+  border-radius: 2px; border: none;
+  transition: background .2s, transform .25s, box-shadow .25s;
+  opacity: 0; animation: ytRise 1s 1s forwards;
+}
 .yt-big-btn:hover { background: #cc0000; transform: translateY(-3px); box-shadow: 0 14px 44px rgba(255,0,0,.3); }
 
-@keyframes rise { from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)} }
+/* sound toggle */
+.yt-sound-btn {
+  position: absolute; bottom: 2rem; right: 2rem; z-index: 5;
+  background: rgba(26,18,9,.7); border: 1px solid rgba(255,255,255,.15);
+  color: rgba(240,235,224,.6); backdrop-filter: blur(10px);
+  padding: .5rem 1rem; border-radius: 30px;
+  font-size: .6rem; letter-spacing: .15em; text-transform: uppercase;
+  display: flex; align-items: center; gap: .5rem;
+  transition: color .2s, border-color .2s;
+}
+.yt-sound-btn:hover { color: var(--khaki); border-color: rgba(196,170,122,.4); }
 
-/* ══ CHANNEL INFO ══ */
-.ch-info { background: var(--earth2); padding: 6rem 6vw; display: grid; grid-template-columns: 1fr 1.6fr; gap: 6rem; align-items: center; }
-.ch-avatar { width: 100%; aspect-ratio: 1; max-width: 320px; border-radius: 50%; overflow: hidden; background: linear-gradient(135deg, var(--river), var(--moss)); display: flex; align-items: center; justify-content: center; margin: 0 auto; border: 3px solid rgba(196,170,122,.2); }
-.ch-avatar-ph { opacity: .3; text-align: center; }
-.ch-avatar-ph p { font-family: var(--ff-head); font-size: .6rem; letter-spacing: .2em; color: var(--cream); margin-top: .5rem; text-transform: uppercase; }
-.ch-name { font-family: var(--ff-head); font-size: clamp(2.5rem,5vw,5rem); letter-spacing: .04em; color: #fff; line-height: .9; margin: .6rem 0; }
-.ch-name em { font-family: var(--ff-serif); font-style: italic; color: var(--khaki); }
-.ch-handle { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: rgba(240,235,224,.35); margin-bottom: 1.5rem; }
-.ch-stats { display: flex; gap: 2.5rem; margin: 2rem 0; }
-.ch-stat-n { font-family: var(--ff-head); font-size: 2.2rem; letter-spacing: .04em; color: var(--khaki); display: block; line-height: 1; }
-.ch-stat-l { font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: rgba(240,235,224,.3); margin-top: .25rem; display: block; }
-.ch-desc { font-family: var(--ff-body); font-style: italic; font-size: .95rem; color: rgba(240,235,224,.5); line-height: 1.9; margin-bottom: 2rem; }
+@keyframes ytRise { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
 
-/* ══ VIDEO GRID ══ */
-.video-section { background: var(--earth); padding: 7rem 6vw; }
-.video-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 3.5rem; background: rgba(255,255,255,.04); }
-.video-card { background: var(--earth2); overflow: hidden; text-decoration: none; display: block; transition: background .3s; }
-.video-card:hover { background: #1f1710; }
-.video-thumb { aspect-ratio: 16/9; overflow: hidden; position: relative; background: linear-gradient(145deg,#0d1a14,#1a2e22,#152030); display: flex; align-items: center; justify-content: center; }
-.video-play { width: 52px; height: 52px; background: rgba(255,0,0,.85); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: transform .25s, background .2s; }
-.video-card:hover .video-play { transform: scale(1.12); background: #FF0000; }
-.video-play svg { margin-left: 3px; }
-.video-thumb-ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: linear-gradient(145deg,#0d1a14,#1a3028,#152030); flex-direction: column; gap: 1rem; }
-.video-meta { padding: 1.4rem; }
-.video-tag { font-size: .55rem; letter-spacing: .28em; text-transform: uppercase; color: var(--peach); margin-bottom: .4rem; display: block; }
-.video-title { font-family: var(--ff-head); font-size: 1.1rem; letter-spacing: .06em; color: #fff; line-height: 1.1; transition: color .2s; }
-.video-card:hover .video-title { color: var(--khaki); }
-.video-date { font-size: .65rem; color: rgba(240,235,224,.25); margin-top: .4rem; }
-/* featured video */
-.video-card-feat { grid-column: span 3; display: grid; grid-template-columns: 1.4fr 1fr; }
-.video-feat-thumb { aspect-ratio: auto; min-height: 320px; }
+/* ══ CHANNEL STRIP ══ */
+.ch-strip {
+  background: var(--earth2); padding: 4rem 6vw;
+  display: flex; align-items: center; gap: 3rem; flex-wrap: wrap;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+.ch-strip-avatar {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--river), var(--moss));
+  border: 2px solid rgba(196,170,122,.2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--ff-head); font-size: 2rem; color: #fff; flex-shrink: 0;
+  overflow: hidden;
+}
+.ch-strip-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.ch-strip-info { flex: 1; }
+.ch-strip-name { font-family: var(--ff-head); font-size: 1.8rem; letter-spacing: .08em; color: #fff; }
+.ch-strip-handle { font-size: .65rem; letter-spacing: .18em; text-transform: uppercase; color: rgba(240,235,224,.35); margin-top: .2rem; }
+.ch-strip-desc { font-family: var(--ff-body); font-style: italic; font-size: .88rem; color: rgba(240,235,224,.45); line-height: 1.7; margin-top: .5rem; max-width: 500px; }
+.ch-strip-cta { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
 
-/* ══ SUBSCRIBE CTA ══ */
-.yt-subscribe { background: var(--earth2); padding: 7rem 6vw; text-align: center; position: relative; overflow: hidden; }
-.yt-subscribe::before { content:''; position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(255,0,0,.06) 0%,transparent 65%);pointer-events:none; }
-.yt-sub-title { font-family: var(--ff-head); font-size: clamp(3rem,6vw,7rem); line-height: .88; color: #fff; margin: .6rem 0 1.2rem; }
-.yt-sub-title em { font-family: var(--ff-serif); font-style: italic; color: var(--khaki); display: block; }
-.yt-sub-body { font-family: var(--ff-body); font-style: italic; color: rgba(240,235,224,.45); font-size: .95rem; max-width: 500px; margin: 0 auto 2.5rem; line-height: 1.9; }
+/* ══ VIDEO GRID — latest 4 videos embedded ══ */
+.vid-section { background: var(--earth); padding: 6rem 6vw; }
+.vid-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; background: rgba(255,255,255,.04); margin-top: 3.5rem; }
+.vid-card { background: var(--earth2); overflow: hidden; text-decoration: none; display: block; transition: background .3s; }
+.vid-card:hover { background: #1f1710; }
+.vid-embed { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+.vid-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+.vid-meta { padding: 1.3rem 1.5rem; }
+.vid-tag  { font-size: .55rem; letter-spacing: .28em; text-transform: uppercase; color: var(--peach); margin-bottom: .35rem; display: block; }
+.vid-title { font-family: var(--ff-head); font-size: 1.15rem; letter-spacing: .06em; color: #fff; line-height: 1.1; transition: color .2s; }
+.vid-card:hover .vid-title { color: var(--khaki); }
 
-@media (max-width:900px) {
-  .ch-info { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 1.5rem; }
-  .ch-avatar { max-width: 200px; }
-  .video-grid { grid-template-columns: 1fr; }
-  .video-card-feat { grid-column: auto; grid-template-columns: 1fr; }
-  .video-section { padding: 5rem 1.5rem; }
-  .yt-subscribe { padding: 5rem 1.5rem; }
+/* featured top row — wider */
+.vid-card-featured { grid-column: span 2; display: grid; grid-template-columns: 1.4fr 1fr; }
+.vid-card-featured .vid-embed { padding-bottom: 0; height: 100%; min-height: 320px; }
+.vid-card-featured .vid-embed iframe { position: relative; height: 100%; min-height: 320px; }
+
+/* ══ PLAYLIST CTA ══ */
+.yt-all { background: var(--earth2); padding: 6rem 6vw; text-align: center; }
+.yt-all-title { font-family: var(--ff-head); font-size: clamp(2.5rem,5.5vw,6rem); line-height: .88; color: #fff; margin: .6rem 0 1.2rem; }
+.yt-all-title em { font-family: var(--ff-serif); font-style: italic; color: var(--khaki); display: block; }
+.yt-all-sub { font-family: var(--ff-body); font-style: italic; color: rgba(240,235,224,.45); max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.9; font-size: .95rem; }
+
+@media (max-width: 900px) {
+  .vid-grid { grid-template-columns: 1fr; }
+  .vid-card-featured { grid-column: auto; grid-template-columns: 1fr; }
+  .vid-card-featured .vid-embed { height: auto; min-height: auto; padding-bottom: 56.25%; }
+  .vid-card-featured .vid-embed iframe { position: absolute; height: 100%; }
+  .ch-strip { padding: 3rem 1.5rem; }
+  .vid-section, .yt-all { padding: 4.5rem 1.5rem; }
 }
   </style>
 </head>
@@ -100,104 +157,236 @@
 <nav class="ob-nav">
   <a href="index.html" class="ob-nav-logo">Outdoor Bills</a>
   <div class="ob-nav-links">
-    <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="about.html">About</a><a href="youtube.html">YouTube</a><a href="sandlot.html">Sandlot Revival</a><a href="contact.html">Contact</a>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="about.html">About</a>
+    <a href="youtube.html">YouTube</a>
+    <a href="sandlot.html">Sandlot Revival</a>
+    <a href="contact.html">Contact</a>
   </div>
   <a href="shop.html" class="ob-nav-cta">Shop Now</a>
   <button class="ob-nav-burger" onclick="openDrawer()"><span></span><span></span><span></span></button>
 </nav>
 
-<!-- HERO -->
+<!-- ══ HERO — Bill's YouTube playing in background ══ -->
 <section class="yt-hero">
-  <div class="yt-hero-bg"></div>
-  <div class="yt-hero-scan"></div>
+  <!-- YouTube iframe as background video — autoplay muted, no controls -->
+  <div class="yt-hero-iframe-wrap" id="yt-bg-wrap">
+    <!-- Loads Bill's channel page as ambient background.
+         YouTube's embed with autoplay + mute plays his latest content. -->
+    <iframe
+      id="yt-bg-iframe"
+      src="https://www.youtube.com/embed/videoseries?list=UU&autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+  </div>
+  <div class="yt-hero-fallback" id="yt-fallback"></div>
+  <div class="yt-hero-overlay"></div>
   <div class="yt-hero-grain"></div>
+
   <div class="yt-hero-inner">
     <div class="yt-hero-kicker">Watch &amp; Subscribe</div>
     <h1 class="yt-hero-h1">On The<br/><em>Channel</em></h1>
-    <p class="yt-hero-sub">Fishing, hunting, and outdoor adventures from around the world. Follow Bill Leroy on YouTube and never miss a trip.</p>
+    <p class="yt-hero-sub">Fishing, hunting, and outdoor adventures from around the world. Follow Bill Leroy and never miss a trip.</p>
     <a href="https://www.youtube.com/@bill_leroy" class="yt-big-btn" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
       Subscribe on YouTube
     </a>
   </div>
+
+  <button class="yt-sound-btn" id="yt-sound-btn" onclick="toggleSound()">
+    <svg id="yt-mute-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M16.5 12A4.5 4.5 0 0 0 14 7.97v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.796 8.796 0 0 0 21 12c0-4.28-3-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06A8.99 8.99 0 0 0 17.73 18l2 2L21 18.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+    <svg id="yt-unmute-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="display:none"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+    <span id="yt-sound-label">Unmute</span>
+  </button>
 </section>
 
-<!-- CHANNEL INFO -->
-<section class="ch-info">
-  <div class="ch-avatar ob-reveal-l">
-    <div class="ch-avatar-ph">
-      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(240,235,224,.25)" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>
-      <p>Bill&apos;s Photo</p>
-    </div>
+<!-- ══ CHANNEL STRIP ══ -->
+<div class="ch-strip ob-reveal">
+  <div class="ch-strip-avatar">
+    <!-- Replace with actual channel art: <img src="bill-avatar.jpg"/> -->
+    B
   </div>
-  <div class="ob-reveal-r">
-    <span class="ob-eyebrow khaki">The Channel</span>
-    <h2 class="ch-name">Bill <em>Leroy</em></h2>
-    <p class="ch-handle">@bill_leroy &nbsp;&#8231;&nbsp; Outdoor Bills</p>
-    <div class="ch-stats">
-      <div><span class="ch-stat-n">&#8734;</span><span class="ch-stat-l">Adventures</span></div>
-      <div><span class="ch-stat-n">100%</span><span class="ch-stat-l">Outdoors</span></div>
-    </div>
-    <p class="ch-desc">From the rivers of Middle Georgia to the waters and fields around the world — Bill takes you along on every trip. Fishing, hunting, outdoor adventure, and the faith and community that ties it all together.</p>
+  <div class="ch-strip-info">
+    <div class="ch-strip-name">Bill Leroy</div>
+    <div class="ch-strip-handle">@bill_leroy &nbsp;&#8231;&nbsp; Outdoor Bills</div>
+    <p class="ch-strip-desc">From the rivers of Middle Georgia to the waters and fields around the world — fishing, hunting, outdoor adventure, and the faith that ties it all together.</p>
+  </div>
+  <div class="ch-strip-cta">
     <a href="https://www.youtube.com/@bill_leroy" class="btn-solid" target="_blank">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="white"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-      Go to Channel
+      Subscribe
     </a>
+    <a href="https://www.youtube.com/@bill_leroy/videos" class="btn-outline" target="_blank">View All Videos</a>
   </div>
-</section>
+</div>
 
-<!-- VIDEOS -->
-<section class="video-section">
+<!-- ══ VIDEO GRID — paste Bill's actual video IDs below ══ -->
+<!--
+  HOW TO ADD REAL VIDEOS:
+  1. Go to a video on Bill's YouTube channel
+  2. Copy the video ID from the URL — it's the part after "?v="
+     Example: youtube.com/watch?v=ABC123XYZ  →  ID is "ABC123XYZ"
+  3. Replace the placeholder IDs below (currently showing channel page)
+-->
+<section class="vid-section">
   <div class="ob-reveal">
-    <span class="ob-eyebrow light">Recent Videos</span>
-    <h2 class="ob-title" style="font-size:clamp(2.5rem,4.5vw,5.5rem);color:#fff;">Latest <em style="color:var(--khaki);">On The Channel</em></h2>
+    <span class="ob-eyebrow light">Latest Videos</span>
+    <h2 class="ob-title" style="font-size:clamp(2.5rem,4.5vw,5.5rem);color:#fff;">From The <em style="color:var(--khaki);">Field</em></h2>
   </div>
-  <div class="video-grid">
 
-    <!-- Featured -->
-    <a href="https://www.youtube.com/@bill_leroy" target="_blank" class="video-card video-card-feat ob-reveal">
-      <div class="video-thumb video-feat-thumb">
-        <div class="video-thumb-ph">
-          <div class="video-play"><svg viewBox="0 0 24 24" width="22" height="22" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-        </div>
+  <div class="vid-grid">
+
+    <!-- VIDEO 1 — FEATURED (paste Bill's video ID to replace UCuR_WqN7kXoFuYCPz...) -->
+    <div class="vid-card vid-card-featured ob-reveal">
+      <div class="vid-embed">
+        <!-- Replace VIDEO_ID_1 with actual YouTube video ID from Bill's channel -->
+        <iframe
+          src="https://www.youtube.com/embed/?listType=user_uploads&list=bill_leroy&index=1&autoplay=0&rel=0&modestbranding=1"
+          title="Outdoor Bills — Latest Video"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen loading="lazy">
+        </iframe>
       </div>
-      <div class="video-meta">
-        <span class="video-tag">Latest Video</span>
-        <div class="video-title">Add Your Latest Video Title Here</div>
-        <div class="video-date">Upload date will show here</div>
+      <div class="vid-meta">
+        <span class="vid-tag">Latest &#8231; Outdoor Bills</span>
+        <div class="vid-title">Latest Video — Add ID in HTML to show Bill's content</div>
+        <div style="font-size:.65rem;color:rgba(240,235,224,.25);margin-top:.4rem;">Replace src with: youtube.com/embed/YOUR_VIDEO_ID</div>
       </div>
-    </a>
+    </div>
 
-    <a href="https://www.youtube.com/@bill_leroy" target="_blank" class="video-card ob-reveal d1">
-      <div class="video-thumb"><div class="video-thumb-ph"><div class="video-play"><svg viewBox="0 0 24 24" width="20" height="20" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div></div>
-      <div class="video-meta"><span class="video-tag">Fishing</span><div class="video-title">Add Video Title</div><div class="video-date">Add Date</div></div>
-    </a>
+    <!-- VIDEO 2 -->
+    <div class="vid-card ob-reveal d1">
+      <div class="vid-embed">
+        <iframe
+          src="https://www.youtube.com/embed/?listType=user_uploads&list=bill_leroy&index=2&rel=0&modestbranding=1"
+          title="Outdoor Bills"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen loading="lazy">
+        </iframe>
+      </div>
+      <div class="vid-meta">
+        <span class="vid-tag">Fishing &#8231; Outdoor Bills</span>
+        <div class="vid-title">Add Video ID #2</div>
+      </div>
+    </div>
 
-    <a href="https://www.youtube.com/@bill_leroy" target="_blank" class="video-card ob-reveal d2">
-      <div class="video-thumb" style="background:linear-gradient(145deg,#1e2a18,#243d20,#1a2028);"><div class="video-thumb-ph"><div class="video-play"><svg viewBox="0 0 24 24" width="20" height="20" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div></div>
-      <div class="video-meta"><span class="video-tag">Hunting</span><div class="video-title">Add Video Title</div><div class="video-date">Add Date</div></div>
-    </a>
+    <!-- VIDEO 3 -->
+    <div class="vid-card ob-reveal d2">
+      <div class="vid-embed">
+        <iframe
+          src="https://www.youtube.com/embed/?listType=user_uploads&list=bill_leroy&index=3&rel=0&modestbranding=1"
+          title="Outdoor Bills"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen loading="lazy">
+        </iframe>
+      </div>
+      <div class="vid-meta">
+        <span class="vid-tag">Hunting &#8231; Outdoor Bills</span>
+        <div class="vid-title">Add Video ID #3</div>
+      </div>
+    </div>
 
-    <a href="https://www.youtube.com/@bill_leroy" target="_blank" class="video-card ob-reveal d3">
-      <div class="video-thumb" style="background:linear-gradient(145deg,#1a2820,#2a4030,#182028);"><div class="video-thumb-ph"><div class="video-play"><svg viewBox="0 0 24 24" width="20" height="20" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div></div>
-      <div class="video-meta"><span class="video-tag">Adventure</span><div class="video-title">Add Video Title</div><div class="video-date">Add Date</div></div>
-    </a>
+    <!-- VIDEO 4 -->
+    <div class="vid-card ob-reveal d3">
+      <div class="vid-embed">
+        <iframe
+          src="https://www.youtube.com/embed/?listType=user_uploads&list=bill_leroy&index=4&rel=0&modestbranding=1"
+          title="Outdoor Bills"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen loading="lazy">
+        </iframe>
+      </div>
+      <div class="vid-meta">
+        <span class="vid-tag">Adventure &#8231; Outdoor Bills</span>
+        <div class="vid-title">Add Video ID #4</div>
+      </div>
+    </div>
 
   </div>
 </section>
 
-<!-- SUBSCRIBE CTA -->
-<section class="yt-subscribe">
-  <span class="ob-eyebrow light ob-reveal">Don&apos;t Miss Out</span>
-  <h2 class="yt-sub-title ob-reveal d1">Subscribe<br/><em>Today</em></h2>
-  <p class="yt-sub-body ob-reveal d2">New videos dropping regularly. From early morning fishing trips to full hunting season content — it all lives on the channel.</p>
-  <a href="https://www.youtube.com/@bill_leroy" class="yt-big-btn ob-reveal d3" target="_blank" rel="noopener">
+<!-- VIDEO ID INSTRUCTIONS BOX -->
+<div style="background:#1f1a12;border:1px dashed rgba(196,170,122,.2);padding:2rem 6vw;font-family:var(--ff-ui);">
+  <p style="font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--khaki);margin-bottom:.8rem;">&#128073; How To Add Bill's Real Videos</p>
+  <p style="font-size:.82rem;color:rgba(240,235,224,.45);line-height:1.75;">
+    1. Go to any video on <a href="https://www.youtube.com/@bill_leroy" target="_blank" style="color:var(--sky);">youtube.com/@bill_leroy</a><br/>
+    2. Copy the video ID from the URL — the part after <code style="color:var(--peach);">?v=</code> (example: <code style="color:var(--peach);">dQw4w9WgXcQ</code>)<br/>
+    3. Open <code>youtube.html</code> and find the video embeds<br/>
+    4. Replace the <code>src</code> in each <code>&lt;iframe&gt;</code> with: <code style="color:var(--peach);">https://www.youtube.com/embed/YOUR_VIDEO_ID?rel=0&modestbranding=1</code><br/>
+    5. Update the title text below each embed too
+  </p>
+</div>
+
+<!-- ══ ALL VIDEOS CTA ══ -->
+<section class="yt-all">
+  <span class="ob-eyebrow light ob-reveal">The Full Channel</span>
+  <h2 class="yt-all-title ob-reveal d1">Never Miss<br/><em>A Trip</em></h2>
+  <p class="yt-all-sub ob-reveal d2">New videos dropping regularly. Fishing trips, hunting season content, outdoor adventures — it all lives on the channel. Hit subscribe so you never miss out.</p>
+  <a href="https://www.youtube.com/@bill_leroy" class="yt-big-btn ob-reveal d3" target="_blank" rel="noopener" style="opacity:1;animation:none;">
     <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-    Subscribe on YouTube
+    Watch All Videos
   </a>
 </section>
 
-<div class="ob-footer-wrap"><footer class="ob-footer"><div class="ob-footer-grid"><div><a href="index.html" class="ob-footer-logo">Outdoor Bills</a><p class="ob-footer-tag">For your next adventure.</p><div class="ob-footer-soc"><a href="https://instagram.com/outdoorbills" target="_blank">IG</a><a href="https://www.youtube.com/@bill_leroy" target="_blank">YT</a><a href="https://tiktok.com/@outdoorbills" target="_blank">TK</a></div></div><div class="ob-footer-col"><h5>Shop</h5><ul><li><a href="shop.html">All Products</a></li><li><a href="shop.html">Hats &amp; Caps</a></li></ul></div><div class="ob-footer-col"><h5>About</h5><ul><li><a href="about.html">Our Story</a></li><li><a href="sandlot.html">Sandlot Revival</a></li></ul></div><div class="ob-footer-col"><h5>Connect</h5><ul><li><a href="contact.html">Contact</a></li><li><a href="https://instagram.com/outdoorbills" target="_blank">Instagram</a></li></ul></div></div><div class="ob-footer-bottom"><span>&copy; <span class="ob-year"></span> Outdoor Bills.</span><span>Finding Joy In The Outdoors</span></div></footer></div>
+<!-- FOOTER -->
+<div class="ob-footer-wrap">
+  <footer class="ob-footer">
+    <div class="ob-footer-grid">
+      <div>
+        <a href="index.html" class="ob-footer-logo">Outdoor Bills</a>
+        <p class="ob-footer-tag">For your next adventure.</p>
+        <div class="ob-footer-soc">
+          <a href="https://instagram.com/outdoorbills" target="_blank">IG</a>
+          <a href="https://www.youtube.com/@bill_leroy" target="_blank">YT</a>
+          <a href="https://tiktok.com/@outdoorbills" target="_blank">TK</a>
+        </div>
+      </div>
+      <div class="ob-footer-col"><h5>Shop</h5><ul><li><a href="shop.html">All Products</a></li><li><a href="shop.html">Hats &amp; Caps</a></li></ul></div>
+      <div class="ob-footer-col"><h5>About</h5><ul><li><a href="about.html">Our Story</a></li><li><a href="sandlot.html">Sandlot Revival</a></li></ul></div>
+      <div class="ob-footer-col"><h5>Connect</h5><ul><li><a href="contact.html">Contact</a></li><li><a href="https://instagram.com/outdoorbills" target="_blank">Instagram</a></li></ul></div>
+    </div>
+    <div class="ob-footer-bottom">
+      <span>&copy; <span class="ob-year"></span> Outdoor Bills.</span>
+      <span>Finding Joy In The Outdoors</span>
+    </div>
+  </footer>
+</div>
+
 <script src="main.js"></script>
+<script>
+/* ── SOUND TOGGLE for hero background video ── */
+var isMuted = true;
+function toggleSound() {
+  var frame = document.getElementById('yt-bg-iframe');
+  var btn   = document.getElementById('yt-sound-btn');
+  var label = document.getElementById('yt-sound-label');
+  var muteIcon   = document.getElementById('yt-mute-icon');
+  var unmuteIcon = document.getElementById('yt-unmute-icon');
+
+  isMuted = !isMuted;
+
+  // YouTube iframe API postMessage to toggle mute
+  if (frame && frame.contentWindow) {
+    frame.contentWindow.postMessage(
+      JSON.stringify({ event: 'command', func: isMuted ? 'mute' : 'unMute', args: [] }),
+      '*'
+    );
+  }
+
+  label.textContent      = isMuted ? 'Unmute' : 'Mute';
+  muteIcon.style.display   = isMuted ? 'block' : 'none';
+  unmuteIcon.style.display = isMuted ? 'none'  : 'block';
+}
+
+/* ── Fade fallback once iframe loads ── */
+document.getElementById('yt-bg-iframe').addEventListener('load', function() {
+  setTimeout(function() {
+    var fb = document.getElementById('yt-fallback');
+    if (fb) fb.style.opacity = '0';
+  }, 1500);
+});
+</script>
 </body>
 </html>
